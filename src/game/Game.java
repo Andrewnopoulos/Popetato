@@ -20,7 +20,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public static int width = 480;
 	public static int height = 270;
-	public static int scale = 3;
+	public static int scale = 2;
 	public static String title = "A Game";
 	public static final Dimension DIMENSIONS = new Dimension(width*scale, height*scale);
 	
