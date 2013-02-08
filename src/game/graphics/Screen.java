@@ -7,6 +7,8 @@ public class Screen {
 	public int[] pixels;
 	public int width, height;
 	
+	public int xOffset = 0, yOffset = 0;
+	
 	public Screen(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -25,11 +27,27 @@ public class Screen {
 		}
 	}
 	
-	public void renderTile(Tile tile) {
-		for (int y = 0; y < tile.getSprite().height; y++) {
+	public void renderTile(int xp, int yp, Tile tile) {
+		xp -= xOffset;
+		yp -= yOffset;
+		for(int y = 0; y < tile.getSprite().height; y++) {
+			int ya = y + yp;
 			for (int x = 0; x < tile.getSprite().width; x++) {
-				pixels[x + y * width] = tile.getSprite().pixels[x + y * tile.getSprite().width];
+				int xa = x + xp;
+/* TODO */		if (xa < -tile.getSprite().width || xa >= width || ya < 0 || ya >= height) break;
+				if (xa < 0) xa = 0;
+				pixels[xa + ya * width] = tile.getSprite().pixels[x + y * tile.getSprite().width];
+				
 			}
 		}
+	}
+	
+	public void changeOffset(int xd, int yd) {
+		this.xOffset += xd;
+		this.yOffset += yd;
+	}
+	public void setOffset(int x, int y) {
+		this.xOffset = x;
+		this.yOffset = y;
 	}
 }

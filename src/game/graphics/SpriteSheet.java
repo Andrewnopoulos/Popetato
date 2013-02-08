@@ -10,6 +10,7 @@ public class SpriteSheet {
 	public static SpriteSheet baseSheet = new SpriteSheet("/sheet.png");
 	public static Sprite grass1 = new Sprite(16, 16, 0, 0, SpriteSheet.baseSheet);
 	public static Sprite grass2 = new Sprite(16, 16, 16, 0, SpriteSheet.baseSheet);
+	public static Sprite voidTile = new Sprite(16, 16, 0, 32, SpriteSheet.baseSheet);
 	
 	public String path;
 	public int[] pixels;

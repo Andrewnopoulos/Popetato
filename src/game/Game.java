@@ -34,7 +34,6 @@ public class Game extends Canvas implements Runnable {
 	
 	private Screen screen;
 	private InputHandler input;
-	
 	private Level level;
 	
 	public Game() {
@@ -53,6 +52,8 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(width, height);
 		input = new InputHandler(this);
 		level = new Level("/level.png");
+		level.GenerateLevel();
+		screen.setOffset(0, 0);
 	}
 	
 	public synchronized void start() {
@@ -102,6 +103,16 @@ public class Game extends Canvas implements Runnable {
 	
 	public void update() {
 		input.update();
+		if (input != null) {
+			if (input.up) {screen.changeOffset(0, -1);
+			System.out.println("up");}
+			if (input.down) {screen.changeOffset(0, 1);
+			System.out.println("down");}
+			if (input.left) {screen.changeOffset(-1, 0);
+			System.out.println("left");}
+			if (input.right) {screen.changeOffset(1, 0);
+			System.out.println("right");}
+		}
 	}
 	
 	public void render() {
@@ -112,12 +123,11 @@ public class Game extends Canvas implements Runnable {
 		}
 		screen.clear();
 		screen.render();
+		level.render(screen.xOffset, screen.yOffset, screen);
 		
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
-		
-		level.render(screen);
 		
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(image,  0,  0,  getWidth(), getHeight(), null);

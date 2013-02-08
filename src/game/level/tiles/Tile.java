@@ -8,8 +8,9 @@ import game.graphics.SpriteSheet;
 public abstract class Tile {
 
 	public static final Tile[] tiles = new Tile[256];
-	public static Tile grass = new BasicTile(0, new Sprite[]{SpriteSheet.grass1, SpriteSheet.grass2}, 0xff00ff00);
-	
+	public static Tile grass1 = new BasicTile(1, new Sprite[]{SpriteSheet.grass2}, 0xff00ff00);
+	public static Tile grass2 = new BasicTile(2, new Sprite[]{SpriteSheet.grass1}, 0xff007f00);
+	public static Tile voidTile = new BasicTile(0, new Sprite[]{SpriteSheet.voidTile}, 0xff000000);
 	protected Sprite[] sprites;
 	protected byte tileID;
 	protected int levelColour;
@@ -24,6 +25,7 @@ public abstract class Tile {
 		this.levelColour = levelColour;
 		tiles[id] = this;
 		spriteID = random.nextInt(sprites.length);
+		System.out.println(spriteID);
 	}
 	
 	public Sprite getSprite() {

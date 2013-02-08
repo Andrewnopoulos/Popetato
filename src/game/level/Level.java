@@ -4,7 +4,7 @@ import game.graphics.Screen;
 import game.level.tiles.Tile;
 
 import java.awt.image.BufferedImage;
-
+import java.util.Random;
 
 public class Level {
 
@@ -14,21 +14,38 @@ public class Level {
 	protected String imagePath;
 	protected BufferedImage image;
 	
+	private Random rand = new Random();
+	
 	public Level(String imagePath) {
 		this.imagePath = imagePath;
 	}
 	
-	public void render(Screen screen) {
-		for (int x = 0; x < screen.width; x++) {
-			for (int y = 0; y < screen.height; y++) {
-				screen.renderTile(getTile(x, y));
+	public void GenerateLevel() {
+		this.width = 64;
+		this.height = 64;
+		this.tiles = new byte[64*64];
+		for (int i = 0; i < tiles.length; i++) {
+			tiles[i] = (byte)(rand.nextInt(2)+1);
+		}
+	}
+	
+	public void render(int xScroll, int yScroll, Screen screen) {
+		int x0 = xScroll >> 4;
+		int x1 = (xScroll + screen.width + 16) >> 4;
+		int y0 = yScroll >> 4;
+		int y1 = (yScroll + screen.height + 16) >> 4;
+		
+		for (int y = y0; y < y1; y++) {
+			for (int x = x0; x < x1; x++) {
+				screen.renderTile(x<<4, y<<4, getTile(x,y));
 			}
 		}
 	}
 	
-	private Tile getTile(int x, int y) {
-		if (x < 0 || y < 0 || x >= width || y >= height) return null;
-		return Tile.tiles[tiles[x + y * width]];
+	public Tile getTile(int xPos, int yPos) {
+		if (xPos < 0 || yPos < 0 || xPos >= width || yPos >= height) {
+			return Tile.voidTile;
+		}
+		return Tile.tiles[tiles[xPos + yPos * width]];
 	}
-	
 }
